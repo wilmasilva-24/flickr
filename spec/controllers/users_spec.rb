@@ -7,13 +7,15 @@ RSpec.describe UsersController, type: :request do
         user = create(:user)
 
         get "/users/#{user.id}"
-          
+        
+        json_body = JSON.parse(response.body)
+
         expect(response).to have_http_status(200)
-        expect(JSON.parse(response.body)).to include("description")
-        expect(JSON.parse(response.body)).to include("name")
-        expect(JSON.parse(response.body)).to include("email")
-        expect(JSON.parse(response.body)).to include("avatar")
-        expect(JSON.parse(response.body)).to include("join_date")
+        expect(json_body).to include("description")
+        expect(json_body).to include("name")
+        expect(json_body).to include("email")
+        expect(json_body).to include("avatar")
+        expect(json_body).to include("join_date")
       end
     end
   end
