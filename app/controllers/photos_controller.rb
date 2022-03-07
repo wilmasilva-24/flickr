@@ -14,7 +14,7 @@ class PhotosController < ApplicationController
   def create
     photo = Photo.create(photo_params)
 
-    render json: photo, status: :created
+    render json: photo, status: :created, serializer: Photos::Create::PhotoSerializer
   end
   
   private
