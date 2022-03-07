@@ -16,6 +16,12 @@ class PhotosController < ApplicationController
 
     render json: photo, status: :created, serializer: Photos::Create::PhotoSerializer
   end
+
+  def comments
+    comments = Photo.find(params[:id]).comments
+    
+    render json: comments, status: :ok, each_serializer: Photos::Show::CommentsSerializer
+  end
   
   private
   def photo_params

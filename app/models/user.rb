@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   include Rails.application.routes.url_helpers
   has_many :photos
+  has_many :comments
   validates :name, presence: true
   validates :email, presence: true
   validates :description, presence: true
