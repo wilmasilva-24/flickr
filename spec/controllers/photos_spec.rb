@@ -47,7 +47,7 @@ RSpec.describe PhotosController, type: :request do
 
   describe "GET comments" do
     it "deve retornar os comentários da foto" do
-      user = create(:user)
+      user = create(:user, name: "wilma", description: "novo usuário")
       photo = create(:photo, user: user)
       comment = create(:comment, user: user, photo: photo)
       
@@ -57,6 +57,9 @@ RSpec.describe PhotosController, type: :request do
       
       expect(json_body[0]["title"]).to eq ("Comentário")
       expect(json_body[0]["message"]).to eq ("Nova mensagem")
+      expect(json_body[0]["user"]["name"]).to eq("wilma")
+      expect(json_body[0]["user"]["email"]).to eq("MyString")
+      expect(json_body[0]["user"]["description"]).to eq("novo usuário")
     end
   end
 end

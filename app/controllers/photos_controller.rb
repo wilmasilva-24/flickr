@@ -18,7 +18,7 @@ class PhotosController < ApplicationController
   end
 
   def comments
-    comments = Photo.find(params[:id]).comments
+    comments = Photo.includes(comments: :user).find(params[:id]).comments
     
     render json: comments, status: :ok, each_serializer: Photos::Show::CommentsSerializer
   end
