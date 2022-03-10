@@ -8,4 +8,5 @@ class Users::Show::UserSerializer < ActiveModel::Serializer
   def join_date
     object.created_at
   end
+  has_many :photos, serializer: Photos::Show::PhotoSerializer
 end
