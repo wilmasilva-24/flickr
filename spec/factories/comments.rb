@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :comment do
-    title { "Comentário" }
-    message { "Nova mensagem" }
+    title { "Foto bonita!!" }
+    message { "Suas fotos são muito boas" }
     photo { nil }
     user { nil }
   end

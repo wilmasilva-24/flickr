@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_07_190931) do
+ActiveRecord::Schema.define(version: 2022_03_14_175316) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -66,9 +66,23 @@ ActiveRecord::Schema.define(version: 2022_03_07_190931) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "views", force: :cascade do |t|
+    t.string "remote_ip"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "visualizations", force: :cascade do |t|
+    t.integer "photo_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["photo_id"], name: "index_visualizations_on_photo_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "photos"
   add_foreign_key "comments", "users"
   add_foreign_key "photos", "users"
+  add_foreign_key "visualizations", "photos"
 end

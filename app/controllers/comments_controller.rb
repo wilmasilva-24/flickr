@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
   def create
     comment = Comment.create(comment_params)
+    CommentMailer.with(comment: comment).notify_new_comment.deliver_now
 
     render json: comment, status: :created
   end

@@ -4,7 +4,7 @@ RSpec.describe CommentsController, type: :request do
   describe "Post #Create" do
     context "Quando criar um comentário" do
       it "Deve retornar o status 201" do
-      user = create(:user)
+      user = create(:user, name: "wilma", email: "wilma@wilma.com")
       photo = create(:photo, user: user)
       comment_params = {comment: attributes_for(:comment, user_id: user.id, photo_id: photo.id)}
 

@@ -7,6 +7,7 @@ class PhotosController < ApplicationController
 
   def show
     photo = Photo.find(params[:id])
+    photo.visualizations.create        
         
     render json: photo, status: :ok, serializer: Photos::Show::PhotoSerializer
   end
