@@ -18,14 +18,14 @@ RSpec.describe PhotosController, type: :request do
 
   describe "GET #show" do
     it "deve retornar apenas foto do id selecionado" do
-      user = create(:user)
+      user = create(:user, email: "wilma@hotmail.com")
       photo = create(:photo, user: user)
       visualization = create(:visualization, photo: photo)
 
       get "/photos/#{photo.id}"
      
       json_body = JSON.parse(response.body)
-      
+           
       expect(response).to have_http_status(200)
       expect(json_body).to include("image_url")
       expect(json_body).to include("id")
