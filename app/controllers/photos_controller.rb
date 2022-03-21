@@ -37,6 +37,3 @@ class PhotosController < ApplicationController
     params.require(:photo).permit(:image, :user_id)
   end
 end
-
-#quando atingir 100 visualizações enviar email dizendo que a postagem atigiu 100
-# Quando atingir 200 visualizações
