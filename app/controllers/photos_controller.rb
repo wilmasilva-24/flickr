@@ -12,8 +12,7 @@ class PhotosController < ApplicationController
     if photo.visualizations.count == 100
       VisualizationMailer.with(photo: photo).notify_visualization.deliver_now
 
-    elsif
-      photo.visualizations.count == 200
+    elsif photo.visualizations.count == 200
       VisualizationMailer.with(photo: photo).notify_visualization.deliver_now
     end
 
