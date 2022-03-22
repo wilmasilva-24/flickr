@@ -6,15 +6,9 @@ class PhotosController < ApplicationController
   end
 
   def show
-    photo = Photo.find(params[:id])
-    photo.visualizations.create
-    
-    if photo.visualizations.count == 100
-      VisualizationMailer.with(photo: photo).notify_visualization.deliver_now
-
-    elsif photo.visualizations.count == 200
-      VisualizationMailer.with(photo: photo).notify_visualization.deliver_now
-    end
+    photo = VisualizationCreator.new(
+      Photo.find(params[:id])
+    ).call
 
     render json: photo, status: :ok, serializer: Photos::Show::PhotoSerializer
   end

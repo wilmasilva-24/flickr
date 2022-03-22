@@ -9,7 +9,6 @@ RSpec.describe UsersController, type: :request do
       get "/users/#{user.id}"
       
       json_body = JSON.parse(response.body)
-      binding.pry
       
       expect(response).to have_http_status(200)
       expect(json_body).to include("description")
