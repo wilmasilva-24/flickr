@@ -20,7 +20,6 @@ RSpec.describe PhotosController, type: :request do
     it "deve retornar apenas foto do id selecionado" do
       user = create(:user, email: "wilma@hotmail.com")
       photo = create(:photo, user: user)
-      visualization = create(:visualization, photo: photo)
 
       get "/photos/#{photo.id}"
      
@@ -29,7 +28,7 @@ RSpec.describe PhotosController, type: :request do
       expect(response).to have_http_status(200)
       expect(json_body).to include("image_url")
       expect(json_body).to include("id")
-      expect(photo.visualizations.count).to eq(2)
+      expect(photo.visualizations.count).to eq(1)
     end
   end
   
@@ -51,14 +50,14 @@ RSpec.describe PhotosController, type: :request do
     it "deve retornar os comentários da foto" do
       user = create(:user, name: "wilma", description: "novo usuário")
       photo = create(:photo, user: user)
-      comment = create(:comment, user: user, photo: photo)
+      comment = create(:comment, title:"Comentário", user: user, photo: photo)
       
       get "/photos/#{photo.id}/comments"
       
       json_body = JSON.parse(response.body)
       
       expect(json_body[0]["title"]).to eq ("Comentário")
-      expect(json_body[0]["message"]).to eq ("Nova mensagem")
+      expect(json_body[0]["message"]).to eq ("Suas fotos são muito boas")
       expect(json_body[0]["user"]["name"]).to eq("wilma")
       expect(json_body[0]["user"]["email"]).to eq("MyString")
       expect(json_body[0]["user"]["description"]).to eq("novo usuário")
