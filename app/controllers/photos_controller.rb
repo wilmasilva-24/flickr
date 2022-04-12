@@ -1,8 +1,16 @@
 class PhotosController < ApplicationController
   def index
-    photo = Photo.where(user_id: params[:user_id])
-    
-    render json: photo, status: :ok, each_serializer: Photos::Index::PhotoSerializer
+    photos = Photo.all
+
+    if params[:user_id].present?
+      photos = photos.where(user_id: params[:user_id])
+
+    elsif params[:start_date].present? && params[:end_date].present?
+      photos = photos.where("date(photos.created_at) between :start_date and :end_date", 
+                            start_date: params[:start_date], end_date: params[:end_date])
+    end
+  
+    render json: photos, status: :ok, each_serializer: Photos::Index::PhotoSerializer
   end
 
   def show

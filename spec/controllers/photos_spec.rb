@@ -2,17 +2,47 @@ require 'rails_helper'
 
 RSpec.describe PhotosController, type: :request do
   describe "GET index" do
-    it "deve retornar status 200" do
-      user = create(:user)
-      photo = create(:photo, user: user)
+    context "filtrando por autor das fotos" do
+      it "deve retornar status 200" do
+        user = create(:user)
+        photo = create(:photo, user: user)
+        
+        get "/photos", params: {user_id: user.id}
+        
+        json_body = JSON.parse(response.body)
+        
+        expect(response).to have_http_status(200)
+        expect(json_body[0]).to include("image_url")
+        expect(json_body[0]).to include("id")
+      end
+    end
+    context "sem filtrar por usuário" do
+      it "deve retornar todas as fotos" do
+        user = create(:user)
+        photo = create(:photo, user: user)
+        
+        get "/photos"
+              
+        json_body = JSON.parse(response.body)
+        
+        expect(json_body[0]).to include("image_url")
+        expect(json_body[0]).to include("id")
+      end
+    end
+    context "filtrando por data" do
+      it "deve retornar fotos por data" do
+        user = create(:user,name:"wilma")
+        photo = create(:photo, user: user, created_at:"2022-04-01")
+        photo2 = create(:photo, user: user, created_at:"2022-04-11")
+
+        get "/photos", params: {start_date: "2022-04-01", end_date: "2022-04-10"}
       
-      get "/photos", params: {user_id: user.id}
-      
-      json_body = JSON.parse(response.body)
-      
-      expect(response).to have_http_status(200)
-      expect(json_body[0]).to include("image_url")
-      expect(json_body[0]).to include("id")
+        json_body = JSON.parse(response.body)
+        
+        expect(json_body[0]).to include("image_url")
+        expect(json_body[0]).to include("id")
+        expect(json_body.count).to eq(1)
+      end
     end
   end
 
