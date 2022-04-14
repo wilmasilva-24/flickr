@@ -74,6 +74,28 @@ RSpec.describe PhotosController, type: :request do
         expect(JSON.parse(response.body)).to include("image_url")
       end
     end
+    context "quando o usuário estiver ativo" do
+      it "deve adicionar foto" do
+        user = create(:user, active: true)
+        add_photo = {photo: attributes_for(:photo, user_id: user.id)}
+
+        post "/photos", params: add_photo
+
+        expect(JSON.parse(response.body)).to include("image_url")
+      end
+    end
+    context "quando usuário estiver inativo" do
+      it "deve retornar status 422" do
+        user = create(:user, active: false)
+        add_photo_false = {photo: attributes_for(:photo, user_id: user.id)}
+
+        post "/photos", params: add_photo_false
+
+        expect(response).to have_http_status(422)
+        expect(JSON.parse(response.body)['message']).to eq('O usuaŕio não está ativo')
+
+      end
+    end
   end
 
   describe "GET comments" do

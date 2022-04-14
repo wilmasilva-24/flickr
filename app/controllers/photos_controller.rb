@@ -22,9 +22,15 @@ class PhotosController < ApplicationController
   end
 
   def create
-    photo = Photo.create(photo_params)
-
-    render json: photo, status: :created, serializer: Photos::Create::PhotoSerializer
+    user = User.find(photo_params[:user_id])
+    
+    if user.active?
+      photo = Photo.new(photo_params)
+      photo.save
+      render json: photo, status: :created, serializer: Photos::Create::PhotoSerializer
+    else
+      render json:  {message: 'O usuaŕio não está ativo'}, status: 422
+    end
   end
 
   def comments
